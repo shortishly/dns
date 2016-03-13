@@ -36,12 +36,12 @@ on_load() ->
 add(Id, Name, Description) ->
     Record = #?MODULE{id = Id, name = Name, description = Description},
     ets:insert_new(?MODULE, Record) orelse
-        error({badarg, [Id, Name, Description]}).
+        error(badarg, [Id, Name, Description]).
 
 add(Id, Name) ->
     Record = #?MODULE{id = Id, name = Name},
     ets:insert_new(?MODULE, Record) orelse
-        error({badarg, [Id, Name]}).
+        error(badarg, [Id, Name]).
 
 lookup(Id) when is_integer(Id) ->
     case ets:lookup(?MODULE, Id) of
@@ -49,7 +49,7 @@ lookup(Id) when is_integer(Id) ->
             Name;
 
         [] ->
-            error({badarg, Id})
+            error(badarg, [Id])
     end;
 lookup(Name) ->
     Pattern = #?MODULE{id = '_', name = Name, description = '_'},
@@ -58,5 +58,5 @@ lookup(Name) ->
             Id;
 
         [] ->
-            error({badarg, Name})
+            error(badarg, [Name])
     end.

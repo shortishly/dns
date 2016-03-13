@@ -15,27 +15,10 @@
 
 -module(dns_query).
 
--export([add_header/1]).
--export([add_header/2]).
 -export([decode/1]).
 -export([encode/1]).
 -export([header/2]).
 -export([process/1]).
-
--on_load(on_load/0).
-
-on_load() ->
-    add_header(qr, [query, response]),
-    add_header(aa),
-    add_header(tc),
-    add_header(rd),
-    add_header(ra).
-
-add_header(Name) ->
-    dns_header:add(?MODULE, Name).
-
-add_header(Name, Mapping) ->
-    dns_header:add(?MODULE, Name, Mapping).
 
 
 process(#{header := Header,

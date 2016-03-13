@@ -1,4 +1,4 @@
-%% Copyright (c) 2012-2015 Peter Morgan <peter.james.morgan@gmail.com>
+%% Copyright (c) 2012-2016 Peter Morgan <peter.james.morgan@gmail.com>
 %%
 %% Licensed under the Apache License, Version 2.0 (the "License");
 %% you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ on_load() ->
 
 add(RCODE, Name) ->
     ets:insert_new(?MODULE, [r(RCODE, Name)]) orelse
-        error({badarg, [RCODE, Name]}),
+        error(badarg, [RCODE, Name]),
     ok.
 
 lookup(RCODE) when is_integer(RCODE) ->
@@ -51,7 +51,7 @@ lookup(RCODE) when is_integer(RCODE) ->
             Name;
 
         [] ->
-            error({badarg, RCODE})
+            error(badarg, RCODE)
     end;
 lookup(Name) ->
     case ets:match_object(?MODULE, r('_', Name)) of
@@ -59,7 +59,7 @@ lookup(Name) ->
             RCODE;
 
         [] ->
-            error({badarg, Name})
+            error(badarg, Name)
     end.
 
 r(RCODE, Name) ->

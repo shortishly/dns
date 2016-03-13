@@ -32,7 +32,7 @@ LOCAL_DEPS = \
 
 TEST_DEPS = pcapng
 
-dep_cowboy = git https://github.com/ninenines/cowboy.git master
+dep_cowboy = git https://github.com/ninenines/cowboy.git 2.0.0-pre.3
 dep_crown = git https://github.com/shortishly/crown.git master
 dep_pcapng = git https://github.com/shortishly/pcapng.git master
 

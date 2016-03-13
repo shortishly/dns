@@ -1,4 +1,4 @@
-%% Copyright (c) 2012-2015 Peter Morgan <peter.james.morgan@gmail.com>
+%% Copyright (c) 2012-2016 Peter Morgan <peter.james.morgan@gmail.com>
 %%
 %% Licensed under the Apache License, Version 2.0 (the "License");
 %% you may not use this file except in compliance with the License.
@@ -47,12 +47,12 @@ on_load() ->
 
 add(Id, Name, Coder) ->
     ets:insert_new(?MODULE, r(Id, Name, Coder)) orelse
-        error({badarg, [Id, Name, Coder]}),
+        error(badarg, [Id, Name, Coder]),
     ok.
 
 add(Id, Name) ->
     ets:insert_new(?MODULE, r(Id, Name)) orelse
-        error({badarg, [Id, Name]}),
+        error(badarg, [Id, Name]),
     ok.
 
 
@@ -62,7 +62,7 @@ lookup(Id) when is_integer(Id) ->
             Name;
 
         [] ->
-            error({badarg, Id})
+            error(badarg, Id)
     end;
 lookup(Name) ->
     case ets:match_object(?MODULE, r('_', Name, '_')) of
@@ -70,7 +70,7 @@ lookup(Name) ->
             Id;
 
         [] ->
-            error({badarg, Name})
+            error(badarg, Name)
     end.
 
 
@@ -80,7 +80,7 @@ coder(Id) when is_integer(Id) ->
             Coder;
 
         [] ->
-            error({badarg, Id})
+            error(badarg, Id)
     end;
 coder(Name) ->
     case ets:match_object(?MODULE, r('_', Name, '_')) of
@@ -88,7 +88,7 @@ coder(Name) ->
             Coder;
 
         [] ->
-            error({badarg, Name})
+            error(badarg, Name)
     end.
 
 

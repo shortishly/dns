@@ -27,7 +27,14 @@
           }).
 
 on_load() ->
-    crown_table:reuse(?MODULE, bag).
+    crown_table:reuse(?MODULE, bag),
+    add(dns_update, qr, [request, response]),
+    add(dns_query, qr, [query, response]),
+    add(dns_query, aa),
+    add(dns_query, tc),
+    add(dns_query, rd),
+    add(dns_query, ra).
+
 
 add(OPCODE, Field) ->
     add(OPCODE, Field, [false, true]).
@@ -39,7 +46,7 @@ add(OPCODE, Field, Names) ->
     ok.
 
 add(OPCODE, Field, Name, Value) ->
-    true = ets:insert(?MODULE, [r(OPCODE, Field, Name, Value)]),
+    ets:insert(?MODULE, [r(OPCODE, Field, Name, Value)]),
     ok.
 
 
@@ -49,7 +56,7 @@ lookup(OPCODE, Field, Name) when is_atom(Name) ->
             Value;
 
         [] ->
-            error({badarg, [OPCODE, Field, Name]})
+            error(badarg, [OPCODE, Field, Name])
     end;
 
 lookup(OPCODE, Field, Value) when is_integer(Value) ->
@@ -58,7 +65,7 @@ lookup(OPCODE, Field, Value) when is_integer(Value) ->
             Name;
 
         [] ->
-            error({badarg, [OPCODE, Field, Value]})
+            error(badarg, [OPCODE, Field, Value])
     end.
 
 

@@ -1,4 +1,4 @@
-%% Copyright (c) 2012-2015 Peter Morgan <peter.james.morgan@gmail.com>
+%% Copyright (c) 2012-2016 Peter Morgan <peter.james.morgan@gmail.com>
 %%
 %% Licensed under the Apache License, Version 2.0 (the "License");
 %% you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ on_load() ->
 
 add(OPCODE, Name, Coder) ->
     ets:insert_new(?MODULE, r(OPCODE, Name, Coder)) orelse
-        error({badarg, [OPCODE, Name, Coder]}),
+        error(badarg, [OPCODE, Name, Coder]),
     ok.
 
 
@@ -46,7 +46,7 @@ lookup(OPCODE) when is_integer(OPCODE) ->
             Name;
 
         [] ->
-            error({badarg, OPCODE})
+            error(badarg, OPCODE)
     end;
 lookup(Name) ->
     case ets:match_object(?MODULE, r('_', Name, '_')) of
@@ -54,7 +54,7 @@ lookup(Name) ->
             OPCODE;
 
         [] ->
-            error({badarg, Name})
+            error(badarg, Name)
     end.
 
 process(<<_:16, _:1, OPCODE:4, _:3, _/binary>> = Packet) ->
@@ -78,14 +78,14 @@ coder(OPCODE) when is_integer(OPCODE) ->
             Coder;
 
         [] ->
-            error({badarg, OPCODE})
+            error(badarg, OPCODE)
     end;
 coder(Name) ->
     case ets:match_object(?MODULE, r('_', Name, '_')) of
         [#?MODULE{coder = Coder}] ->
             Coder;
         [] ->
-            error({badarg, Name})
+            error(badarg, Name)
     end.
 
 r(OPCODE, Name, Coder) ->

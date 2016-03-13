@@ -24,7 +24,7 @@ acceptors(http) ->
 
 
 enabled(http) ->
-    get_env(http, true).
+    get_env(http_enabled, true).
 
 
 port(udp) ->
