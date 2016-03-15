@@ -16,13 +16,36 @@
 -export([lookup/3]).
 
 
+lookup(Name, Class, soa) ->
+    dns_node:find(Name, Class, soa);
+
 lookup(Name, Class, Type) ->
     case dns_node:find(Name, Class, Type) of
+
         not_found ->
-            recursive(Name, Class, Type);
+            case has_soa(Name, Class) of
+                true ->
+                    not_found;
+                false ->
+                    recursive(Name, Class, Type)
+            end;
+
         Resources ->
             Resources
     end.
+
+has_soa([_ | Domain] = Name, Class) ->
+    case dns_node:find(Name, Class, soa) of
+        not_found ->
+            has_soa(Domain, Class);
+
+        _ ->
+            true
+    end;
+has_soa([], _) ->
+    false.
+
+
 
 
 recursive(Name, Class, Type) ->
