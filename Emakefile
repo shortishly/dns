@@ -1,4 +1,5 @@
-%% Copyright (c) 2012-2016 Peter Morgan <peter.james.morgan@gmail.com>
+%% -*- mode: erlang -*-
+%% Copyright (c) 2012-2015 Peter Morgan <peter.james.morgan@gmail.com>
 %%
 %% Licensed under the Apache License, Version 2.0 (the "License");
 %% you may not use this file except in compliance with the License.
@@ -12,14 +13,8 @@
 %% See the License for the specific language governing permissions and
 %% limitations under the License.
 
--module(dns_rr_ptr).
-
--export([decode/3]).
--export([encode/4]).
-
-decode(_, PointerName, Packet) ->
-    {Labels, <<>>} = dns_name:decode(PointerName, Packet),
-    Labels.
-
-encode(Labels, _, Packet, Offsets) ->
-    dns_name:encode(Labels, Packet, Offsets).
+{["src/*"], 
+ [{i, "include"},
+  {outdir, "ebin"},
+  debug_info]
+}.

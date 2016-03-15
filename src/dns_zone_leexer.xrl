@@ -14,6 +14,7 @@
 
 Definitions.
 
+IN_ADDR = [0-9]+.[0-9]+.[0-9]+.[0-9]+.in-addr.arpa
 At = @
 Comment = ;.*
 Escape = \\[^0-9]
@@ -35,7 +36,7 @@ AAAA = AAAA
 SRV = SRV
 OPT = OPT
 TSIG = TSIG
-Name = [a-zA-Z][a-zA-Z0-9]*
+Name = [a-zA-Z][\-a-zA-Z0-9]*
 WS = [\s\t]+
 EOL = [\r\n]
 Control = \$(ORIGIN|INCLUDE|TTL)
@@ -44,6 +45,7 @@ Colon = :
 
 Rules.
 
+{IN_ADDR} : {token, {in_addr, TokenLine, TokenChars}}.
 {Colon}+ : {token, {colon, TokenLine, TokenChars}}.
 {WS} : {token, {ws, TokenLine, TokenChars}}.
 {At} : {token, {origin, TokenLine}}.

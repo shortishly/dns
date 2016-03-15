@@ -111,6 +111,7 @@ domain(#{absolute := _} = FQDN, _) ->
 resource(Domain, TTL, #{type :=Type,
                         class := Class,
                         rdata := #{domain := Name}}) when Type == ns orelse
+                                                          Type == ptr orelse
                                                           Type == cname ->
     dns_node:add(name(Domain), Class, Type, TTL, name(Name, Domain));
 

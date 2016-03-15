@@ -24,7 +24,7 @@ time ipv4.
 Terminals
 
 escape a ns cname soa mx origin dot ws integer duration name comment
-control eol class.
+control eol class in_addr ptr.
 
 Rootsymbol entries.
 
@@ -52,6 +52,7 @@ time -> integer : #{seconds => value_of('$1')}.
 
 domain -> names : rel_or_abs('$1').
 domain -> origin : value_of('$1').
+domain -> in_addr : #{absolute => dns_name:labels(value_of('$1'))}.
 
 names -> nm : ['$1'].
 names -> nm dot : ['$1', value_of('$2')].
@@ -90,6 +91,9 @@ resource -> soa ws domain ws domain ws integer ws time ws time ws time ws time :
                                                                               expire => '$13',
                                                                               minimum => '$15'
                                                                               }}.
+
+resource -> ptr ws domain : #{type => ptr,
+                              rdata => #{domain => '$3'}}.
 
 
 ipv4 -> integer dot integer dot integer dot integer : #{ip => {value_of('$1'),

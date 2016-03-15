@@ -13,10 +13,12 @@
 %% limitations under the License.
 
 -module(dns).
+
 -export([get_env/1]).
 -export([get_env/2]).
 -export([make/0]).
 -export([modules/0]).
+-export([priv_dir/0]).
 -export([start/0]).
 -export([trace/0]).
 -export([trace/1]).
@@ -59,3 +61,12 @@ trace(false) ->
 
 m(Module) ->
     {Module, '_', '_'}.
+
+priv_dir() ->
+    case code:priv_dir(?MODULE) of
+        {error, bad_name} ->
+            error(badarg);
+
+        Filename ->
+            Filename
+    end.

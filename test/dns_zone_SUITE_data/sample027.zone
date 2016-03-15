@@ -1,0 +1,4 @@
+$ORIGIN localhost.
+$TTL 655360
+
+@                       IN      A       127.0.0.1

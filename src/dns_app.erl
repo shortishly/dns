@@ -21,6 +21,7 @@
 start(_Type, _Args) ->
     try
         {ok, Sup} = dns_sup:start_link(),
+        load("localhost.zone"),
         {ok, Sup, #{listeners => perhaps_start(http, [])}}
     catch
         _:Reason ->
@@ -31,6 +32,10 @@ stop(#{listeners := Listeners}) ->
     lists:foreach(fun cowboy:stop_listener/1, Listeners);
 stop(_State) ->
     ok.
+
+load(Zone) ->
+    {ok, Contents} = file:read_file(filename:join(dns:priv_dir(), Zone)),
+    dns_zone:process(Contents) == ok orelse error(badarg, [Zone]).
 
 
 perhaps_start(Prefix, A) ->

@@ -1,0 +1,5 @@
+$ORIGIN localhost.
+$TTL 655360
+
+@                       IN      A       127.0.0.1
+1.0.0.127.in-addr.arpa  IN      PTR     localhost.
