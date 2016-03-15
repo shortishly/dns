@@ -19,7 +19,7 @@
 -compile(export_all).
 
 all() ->
-        [{group, tests}].
+    [{group, tests}].
 
 groups() ->
     [{tests, [parallel], common:all(?MODULE)}].

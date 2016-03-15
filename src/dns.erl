@@ -16,7 +16,10 @@
 -export([get_env/1]).
 -export([get_env/2]).
 -export([make/0]).
+-export([modules/0]).
 -export([start/0]).
+-export([trace/0]).
+-export([trace/1]).
 
 start() ->
     application:ensure_all_started(?MODULE).
@@ -29,3 +32,30 @@ get_env(Key, Strategy) ->
 
 get_env(Key) ->
     gproc:get_env(l, ?MODULE, Key).
+
+ensure_loaded() ->
+    lists:foreach(fun code:ensure_loaded/1, modules()).
+
+modules() ->
+    {ok, Modules} = application:get_key(?MODULE, modules),
+    Modules.
+
+trace() ->
+    trace(true).
+
+trace(true) ->
+    ensure_loaded(),
+    case recon_trace:calls([m(Module) || Module <- modules()],
+                           {1000, 500},
+                           [{scope, local},
+                            {pid, all}]) of
+        Matches when Matches > 0 ->
+            ok;
+        _ ->
+            error
+    end;
+trace(false) ->
+    recon_trace:clear().
+
+m(Module) ->
+    {Module, '_', '_'}.
