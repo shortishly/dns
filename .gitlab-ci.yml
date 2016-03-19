@@ -12,7 +12,7 @@ app:
     - master
 
 tests:
-  stage: test
+  stage: tests
   script:
     - make tests
   only:
