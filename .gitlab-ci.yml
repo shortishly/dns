@@ -1,0 +1,19 @@
+image: erlang
+
+stages:
+  - build
+  - tests
+
+app:
+  stage: build
+  script:
+    - make
+  only:
+    - master
+
+tests:
+  stage: test
+  script:
+    - make tests
+  only:
+    - master
