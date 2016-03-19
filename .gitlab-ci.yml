@@ -8,30 +8,16 @@ before_script:
   - apt-get update
   - apt-cache policy docker-engine
   - apt-get -y install docker-engine
+  - service docker start
   - env
 
 stages:
   - build
-  - containerize
-  - tests
 
 app:
   stage: build
   script:
-    - make
-  only:
-    - master
-
-package:
-  stage: containerize
-  script:
-    - docker build -t dns .
-  only:
-    - master
-
-tests:
-  stage: tests
-  script:
     - make tests
+    - docker build -t dns .
   only:
     - master
