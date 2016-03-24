@@ -2,12 +2,14 @@ image: erlang
 
 before_script:
   - git config --global url.http://gitlab.dev.sunninghill.org/shortishly.insteadOf https://github.com/shortishly
+  - curl -sSL https://get.docker.com/ | sh
 stages:
   - build
 
 app:
   stage: build
   script:
-    - make tests
+    - make
+    - docker build --pull=true --no-cache=true --force-rm=true -t reg001.local:5000/dns .
   only:
     - master
