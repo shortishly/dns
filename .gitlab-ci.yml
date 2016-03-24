@@ -1,7 +1,7 @@
 image: erlang
 
 before_script:
-  - git config --global url.http://gitlab.dev.sunninghill.org:shortishly.insteadOf https://github.com/shortishly
+  - git config --global url.http://gitlab.dev.sunninghill.org/shortishly.insteadOf https://github.com/shortishly
 stages:
   - build
 
